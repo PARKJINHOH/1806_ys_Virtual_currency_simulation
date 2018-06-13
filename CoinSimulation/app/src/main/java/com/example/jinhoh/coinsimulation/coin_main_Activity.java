@@ -1,5 +1,6 @@
 package com.example.jinhoh.coinsimulation;
 
+import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,6 +32,7 @@ import java.util.HashMap;
 public class coin_main_Activity extends TabActivity implements TabHost.OnTabChangeListener {
     TextView txtMyAllMoney, txtMyVirMoney;
     TabHost tabHost;
+    Button BTNsetMYCOIN;
 
     //코인
     Api_Client api;
@@ -50,6 +53,7 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
 
     String[] stocklist = {"BTC", "ETH", "DASH", "LTC", "ETC", "XRP", "BCH", "QTUM", "EOS"};
     String[] stock_price = new String[stocklist.length];
+    Double[] dstock_price = new Double[stocklist.length];
     int[] stock_change_price = new int[stocklist.length];
     double[] cpYesterPercent = new double[stocklist.length];
 
@@ -69,30 +73,7 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
         thread.start();
         //api end
 
-        txtMyAllMoney = (TextView) findViewById(R.id.txtMyAllMoney);
-        txtMyVirMoney = (TextView) findViewById(R.id.txtMyVirMoney);
-        coinHelper = new DBCoinHelper(this, "coin", null, 1);
-        try {
-            Intent out = getIntent();
-            String getid = out.getStringExtra("id");
-            coindb = coinHelper.getWritableDatabase(); //DB열기
-            String sql = "select * from coin where coin_id=?";
-            String[] args = {getid};
-            cr = coindb.rawQuery(sql, args);
-
-            while (cr.moveToNext()) {
-                Integer Icoincash = cr.getInt(1);
-                String coincash = Icoincash.toString();
-                txtMyAllMoney.setText(coincash + "원");
-
-                Integer IcoinCOINCASH = cr.getInt(2);
-                String coinCOINCASH = IcoinCOINCASH.toString();
-                txtMyVirMoney.setText(coinCOINCASH + "원");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        BTNsetMYCOIN = (Button) findViewById(R.id.BTNsetMYCOIN);
 
         tabHost = getTabHost();
         tabHost.setOnTabChangedListener(this);
@@ -124,6 +105,9 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
 
                 Intent intent = new Intent(getApplicationContext(), coin_infomationActivity.class);
                 intent.putExtra("coinName", coinname);
+                Intent out = getIntent();
+                String getid = out.getStringExtra("id");
+                intent.putExtra("id", getid);
                 try {
                     isRunning = false;
                     NetworkThread thread = new NetworkThread();
@@ -134,6 +118,17 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
 
                 startActivityForResult(intent, 0);
 
+            }
+        });
+
+        BTNsetMYCOIN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent out = getIntent();
+                String getid = out.getStringExtra("id");
+                Intent in = new Intent(getApplicationContext(), setCashActivity.class);
+                in.putExtra("id", getid);
+                startActivity(in);
             }
         });
     }
@@ -160,6 +155,7 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
                 isRunning = false;
                 NetworkThread thread = new NetworkThread();
                 thread.start();
+
             }
 
         } catch (Exception e) {
@@ -212,7 +208,8 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
                         JSONArray data_list = obj.getJSONArray("data");
                         JSONObject data_list_obj = data_list.getJSONObject(0);
                         String price = data_list_obj.getString("price");
-
+                        Double Dprice = Double.parseDouble(price);
+                        dstock_price[i] = Dprice;
                         stock_price[i] = price;
 
                         String ticker_result = api.callApi("/public/ticker/" + stocklist[i], rgParams);
@@ -232,6 +229,7 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
                             runOnUiThread(new Runnable() {
                                 public void run() {
                                     showStockList();
+                                    moneychange();
                                 }
                             });
                         }
@@ -268,7 +266,9 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
             } else {
                 price_Percent[i] = Double.toString(cpYesterPercent[i]) + "%";
             }
-            coin = new fragment_Coin(ContextCompat.getDrawable(this, CoinImg[i]), stocklist[i], stock_price[i], price_Percent[i]);
+            String compat = "#,###";
+            DecimalFormat df = new DecimalFormat(compat);
+            coin = new fragment_Coin(ContextCompat.getDrawable(this, CoinImg[i]), stocklist[i], df.format(dstock_price[i]), price_Percent[i]);
             coinlist.add(coin);
         }
 
@@ -276,6 +276,37 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
         listView.setAdapter(adapter);
     }
 
+    public void moneychange() {
+        Intent outchange = getIntent();
+        txtMyAllMoney = (TextView) findViewById(R.id.txtMyAllMoney);
+        txtMyVirMoney = (TextView) findViewById(R.id.txtMyVirMoney);
+        coinHelper = new DBCoinHelper(this, "coin", null, 1);
+        try {
+
+            String getid = outchange.getStringExtra("id");
+            coindb = coinHelper.getWritableDatabase(); //DB열기
+            String sql = "select * from coin where coin_id=?";
+            String[] args = {getid};
+            cr = coindb.rawQuery(sql, args);
+
+            while (cr.moveToNext()) {
+                Double Icoincash = cr.getDouble(1);
+                String compat = "#,###";
+                DecimalFormat df = new DecimalFormat(compat);
+                txtMyAllMoney.setText(df.format(Icoincash) + "원");
+
+                Double mycoincash = 0.0;
+                for (int i = 0; i < stocklist.length; i++) {
+                    mycoincash = mycoincash + (Double.parseDouble(stock_price[i]) * cr.getDouble(i + 3));
+                }
+
+                txtMyVirMoney.setText(df.format(mycoincash) + "원");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 

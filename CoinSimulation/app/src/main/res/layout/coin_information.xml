@@ -87,6 +87,27 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
+                            android:text="보유 수량"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/TVMyMoneycoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
                             android:text="매수 수량"
                             android:textSize="20dp" />
 
@@ -96,6 +117,28 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="주문 총액"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/TVmaybeBuyCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp"
+                            android:textColor="#ff0000"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -118,7 +161,7 @@
                             android:layout_width="250sp"
                             android:layout_height="wrap_content"
                             android:layout_margin="10sp"
-                            android:text="초기화"
+                            android:text="돌아가기"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -131,6 +174,27 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:paddingTop="10sp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="현재 자금"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/TVMyMoneycash"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -177,6 +241,28 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="주문 총액"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/TVSellCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp"
+                            android:textColor="#ff0000"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="15sp">
@@ -186,7 +272,7 @@
                             android:layout_width="250sp"
                             android:layout_height="wrap_content"
                             android:layout_margin="10sp"
-                            android:text="매수"
+                            android:text="매도"
                             android:textSize="20sp" />
 
                         <Button
@@ -194,7 +280,7 @@
                             android:layout_width="250sp"
                             android:layout_height="wrap_content"
                             android:layout_margin="10sp"
-                            android:text="초기화"
+                            android:text="돌아가기"
                             android:textSize="20sp" />
 
                     </LinearLayout>

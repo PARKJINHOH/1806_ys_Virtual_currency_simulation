@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "ㅇㅇㅇ회원 정보를 확인해 주세요", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "회원 정보를 확인해 주세요", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                     edtID.setText("");
                     edtPW.setText("");

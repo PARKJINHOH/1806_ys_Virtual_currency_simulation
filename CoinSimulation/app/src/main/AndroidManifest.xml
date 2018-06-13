@@ -20,7 +20,7 @@
         <activity android:name=".member_form_Activity"></activity>
         <activity android:name=".coin_main_Activity"></activity>
         <activity android:name=".coin_infomationActivity"></activity>
-
+        <activity android:name=".setCashActivity"></activity>
     </application>
 
 </manifest>

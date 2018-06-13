@@ -12,8 +12,8 @@ public class DBCoinHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String coinSQL = "create table coin(coin_id char(20) primary key, coinCASH int default 0, coinCOINCASH int default 0,";
-        coinSQL += "coinBTC int default 0, coinETH int default 0, coinDASH int default 0, coinLTC int default 0, coinETC int default 0, coinXRP int default 0, coinBCH int default 0, coinQTUM int default 0, coinEOS int default 0, FOREIGN KEY(coin_id) REFERENCES member(member_id))";
+        String coinSQL = "create table coin(coin_id char(20) primary key, coinCASH double default 0, coinCOINCASH double default 0,";
+        coinSQL += "coinBTC double default 0, coinETH double default 0, coinDASH double default 0, coinLTC double default 0, coinETC double default 0, coinXRP double default 0, coinBCH double default 0, coinQTUM double default 0, coinEOS double default 0, FOREIGN KEY(coin_id) REFERENCES member(member_id))";
         db.execSQL(coinSQL);
 
     }

@@ -81,6 +81,7 @@
                         android:textSize="25sp" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -88,9 +89,8 @@
                     <ListView
                         android:id="@+id/Coin_listView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
                 </LinearLayout>
-
 
 
             </LinearLayout>
@@ -102,10 +102,19 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="안녕" />
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/BTNsetMYCOIN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="투자 자본금 설정하기" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
