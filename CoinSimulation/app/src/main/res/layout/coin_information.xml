@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/TVcoinName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/TVcoinPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:layout_weight="1"
+            android:textSize="30dp" />
+
+    </LinearLayout>
+
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <!-- 매수 -->
+                <LinearLayout
+                    android:id="@+id/LinerBuyCoin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="10sp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="현재 자금 "
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/TVMyMoney"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="매수 수량"
+                            android:textSize="20dp" />
+
+                        <EditText
+                            android:id="@+id/ETBuyCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="15sp">
+
+                        <Button
+                            android:id="@+id/BTNBuyCoin"
+                            android:layout_width="250sp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10sp"
+                            android:text="매수"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/BTNBuyResetCoin"
+                            android:layout_width="250sp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10sp"
+                            android:text="초기화"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 매도 -->
+                <LinearLayout
+                    android:id="@+id/LinerSellCoin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="10sp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="보유 수량 "
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/TVMyCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="매도 수량"
+                            android:textSize="20dp" />
+
+                        <EditText
+                            android:id="@+id/ETSellCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="15sp">
+
+                        <Button
+                            android:id="@+id/BTNSellCoin"
+                            android:layout_width="250sp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10sp"
+                            android:text="매수"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/BTNSellResetCoin"
+                            android:layout_width="250sp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10sp"
+                            android:text="초기화"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+</LinearLayout>

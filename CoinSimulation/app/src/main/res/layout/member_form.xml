@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2d292d"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="아이디"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edtMemberID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30sp"
+            android:layout_weight="1"
+            android:backgroundTint="#ffffff"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="비밀번호"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edtMemberPW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30sp"
+            android:layout_weight="1"
+            android:backgroundTint="#ffffff"
+            android:inputType="textPassword"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="비밀번호 확인"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edtMemberPWCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30sp"
+            android:layout_weight="1"
+            android:backgroundTint="#ffffff"
+            android:inputType="textPassword"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnMemberOK"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="가입"
+            android:textSize="40px" />
+
+        <Button
+            android:id="@+id/btnMemberCancel"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="취소"
+            android:textSize="40px" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

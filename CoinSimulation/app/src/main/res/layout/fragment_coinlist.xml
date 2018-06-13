@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eeeeee"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/imgCoin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="8dp" />
+
+    <TextView
+        android:id="@+id/txtCoinTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imgCoin"
+        android:layout_toRightOf="@+id/imgCoin"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="제목"/>
+
+    <TextView
+        android:id="@+id/txtCoinPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgCoin"
+        android:layout_toRightOf="@+id/imgCoin"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="가격"/>
+
+    <TextView
+        android:id="@+id/txtCoinChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgCoin"
+        android:layout_alignParentRight="true"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="변동률"/>
+
+</RelativeLayout>

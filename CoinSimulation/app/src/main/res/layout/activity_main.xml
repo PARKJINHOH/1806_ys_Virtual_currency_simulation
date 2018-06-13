@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2d292d"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="250sp"
+        android:layout_height="250sp"
+        android:layout_margin="30px"
+        android:src="@drawable/bitcoin" />
+
+    <EditText
+        android:id="@+id/edtID"
+        android:layout_width="250sp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#ffffff"
+        android:hint="아이디"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff" />
+
+    <EditText
+        android:id="@+id/edtPW"
+        android:layout_width="250sp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10px"
+        android:backgroundTint="#ffffff"
+        android:hint="비밀번호"
+        android:inputType="textPassword"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="로그인"
+            android:textSize="40px" />
+
+        <Button
+            android:id="@+id/btnMemberForm"
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="회원가입"
+            android:textSize="40px" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
