@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -30,9 +31,10 @@ import java.util.HashMap;
 
 @SuppressWarnings("deprecation")
 public class coin_main_Activity extends TabActivity implements TabHost.OnTabChangeListener {
-    TextView txtMyAllMoney, txtMyVirMoney;
+    TextView txtMyAllMoney, txtMyVirMoney, txtMychange, txtALLmoney;
     TabHost tabHost;
     Button BTNsetMYCOIN;
+
 
     //코인
     Api_Client api;
@@ -44,12 +46,21 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
     ArrayList<fragment_Coin> coinlist;
     fragment_Coin coin;
 
-    //DB
-    DBHelper myHelper;
-    DBCoinHelper coinHelper;
-    SQLiteDatabase mydb, coindb;
-    Cursor cr;
+    //2번째 tab
+    ListView Listview_mycoin;
+    mycoinlistAdapter adapterprice;
+    ArrayList<mycoinlist> coinlistprice;
+    mycoinlist coinprice;
 
+    //DB
+    DBCoinHelper coinHelper;
+    SQLiteDatabase coindb;
+    Cursor cr, cr1;
+
+    //DB COINPRICE
+    DBCoinpriceHelper coinpriceHelper;
+    SQLiteDatabase coinpricedb;
+    Cursor crprice;
 
     String[] stocklist = {"BTC", "ETH", "DASH", "LTC", "ETC", "XRP", "BCH", "QTUM", "EOS"};
     String[] stock_price = new String[stocklist.length];
@@ -67,6 +78,15 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
 
 
         listView = (ListView) findViewById(R.id.Coin_listView);
+        Listview_mycoin = (ListView) findViewById(R.id.Listview_mycoin);
+        txtMychange = (TextView) findViewById(R.id.txtMychange);
+        txtALLmoney = (TextView) findViewById(R.id.txtALLmoney);
+
+
+        coinpriceHelper = new DBCoinpriceHelper(this, "coinprice", null, 1);
+        coinHelper = new DBCoinHelper(this, "coin", null, 1);
+        coinpricedb = coinpriceHelper.getWritableDatabase(); //DB열기
+        coindb = coinHelper.getWritableDatabase(); //DB열기
 
         //api start
         NetworkThread thread = new NetworkThread();
@@ -74,6 +94,7 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
         //api end
 
         BTNsetMYCOIN = (Button) findViewById(R.id.BTNsetMYCOIN);
+
 
         tabHost = getTabHost();
         tabHost.setOnTabChangedListener(this);
@@ -146,21 +167,21 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
     }
 
     public void onTabChanged(String tabId) {
-        try {
-            if (tabId.equals("CoinMain")) {
-                isRunning = true;
-                NetworkThread thread = new NetworkThread();
-                thread.start();
-            } else {
-                isRunning = false;
-                NetworkThread thread = new NetworkThread();
-                thread.start();
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (tabId.equals("CoinMain")) {
+//                isRunning = true;
+//                NetworkThread thread = new NetworkThread();
+//                thread.start();
+//            } else {
+//                isRunning = false;
+//                NetworkThread thread = new NetworkThread();
+//                thread.start();
+//
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
         // Tab 색 변경
@@ -230,6 +251,7 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
                                 public void run() {
                                     showStockList();
                                     moneychange();
+                                    coinprice();
                                 }
                             });
                         }
@@ -259,7 +281,6 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
 
         coinlist = new ArrayList<fragment_Coin>();
 
-
         for (int i = 0; i < CoinImg.length; i++) {
             if (cpYesterPercent[i] > 0) {
                 price_Percent[i] = "+" + Double.toString(cpYesterPercent[i]) + "%";
@@ -280,33 +301,101 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
         Intent outchange = getIntent();
         txtMyAllMoney = (TextView) findViewById(R.id.txtMyAllMoney);
         txtMyVirMoney = (TextView) findViewById(R.id.txtMyVirMoney);
-        coinHelper = new DBCoinHelper(this, "coin", null, 1);
         try {
 
             String getid = outchange.getStringExtra("id");
-            coindb = coinHelper.getWritableDatabase(); //DB열기
             String sql = "select * from coin where coin_id=?";
             String[] args = {getid};
             cr = coindb.rawQuery(sql, args);
 
             while (cr.moveToNext()) {
                 Double Icoincash = cr.getDouble(1);
-                String compat = "#,###";
-                DecimalFormat df = new DecimalFormat(compat);
-                txtMyAllMoney.setText(df.format(Icoincash) + "원");
+                Double coindefaultcash = cr.getDouble(2);//default cash
 
                 Double mycoincash = 0.0;
                 for (int i = 0; i < stocklist.length; i++) {
                     mycoincash = mycoincash + (Double.parseDouble(stock_price[i]) * cr.getDouble(i + 3));
                 }
+                Double allmoney = (mycoincash + Icoincash);
+                Double changecash = ((mycoincash + Icoincash) - coindefaultcash) / coindefaultcash * 100;
+                changecash = Double.parseDouble(String.format("%.3f", changecash));
+                String changecashpercent;
+                if(changecash == 0){
+                    changecashpercent = "0%";
+                } else if (changecash > 0) {
+                    changecashpercent = "+" + Double.toString(changecash) + "%";
+                } else {
+                    changecashpercent = Double.toString(changecash) + "%";
+                }
 
+                String compat = "#,###";
+                DecimalFormat df = new DecimalFormat(compat);
+                txtMyAllMoney.setText(df.format(Icoincash) + "원");
                 txtMyVirMoney.setText(df.format(mycoincash) + "원");
+                txtALLmoney.setText(df.format(allmoney) + "원");
+                txtMychange.setText(changecashpercent);
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    //코인 변동률 계산
+    public void coinprice() {
+        Intent outchange = getIntent();
+        String getid = outchange.getStringExtra("id");
+
+
+        try {
+            String pricesql = "select * from coinprice where coin_price_id=?";
+
+            String[] priceargs = {getid};
+            crprice = coinpricedb.rawQuery(pricesql, priceargs);
+            coinlistprice = new ArrayList<mycoinlist>();
+
+
+            while (crprice.moveToNext()) {
+                for (int i = 0; i < stocklist.length; i++) {
+                    Double Icoincash = crprice.getDouble(i + 1);
+                    Double coincount = 0.0;
+
+                    if (Icoincash != 0) {
+                        String countsql = "select coin" + stocklist[i] + " from coin where coin_id=?";
+                        cr1 = coindb.rawQuery(countsql, priceargs);
+
+                        while (cr1.moveToNext()) {
+                            coincount = cr1.getDouble(0);
+                        }
+                        coincount = Double.parseDouble(String.format("%.3f", coincount));
+
+
+                        String price_Percentprice;
+                        Double getprice = dstock_price[i];
+                        Double calprice = ((getprice - Icoincash) / Icoincash) * 100;
+                        calprice = Double.parseDouble(String.format("%.2f", calprice));
+
+                        if (calprice > 0) {
+                            price_Percentprice = "+" + Double.toString(calprice) + "%";
+                        } else {
+                            price_Percentprice = Double.toString(calprice) + "%";
+                        }
+
+
+                        String compat = "#,###";
+                        DecimalFormat df = new DecimalFormat(compat);
+                        coinprice = new mycoinlist(stocklist[i], df.format(Icoincash), price_Percentprice, coincount.toString());
+                        coinlistprice.add(coinprice);
+                    }
+                }
+            }
+            adapterprice = new mycoinlistAdapter(getApplicationContext(), coinlistprice);
+            Listview_mycoin.setAdapter(adapterprice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 

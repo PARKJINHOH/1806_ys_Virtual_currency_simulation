@@ -53,8 +53,11 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
     SQLiteDatabase coindb;
     Cursor cr;
 
+    DBCoinpriceHelper coinpriceHelper;
+    SQLiteDatabase coinpricedb;
+    Cursor crprice;
+
     static String stocklist;
-    static String stock_price;
 
     public boolean isRunning = true;
 
@@ -103,6 +106,11 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
         tabHost.getTabWidget().setCurrentTab(0);
         tabHost.getTabWidget().getChildAt(0).setBackgroundColor(Color.parseColor("#4E4E9C"));
 
+        //DBprice
+        coinpriceHelper = new DBCoinpriceHelper(this, "coinprice", null, 1);
+        coinpricedb = coinpriceHelper.getWritableDatabase(); //DB열기
+        coinHelper = new DBCoinHelper(this, "coin", null, 1);
+        coindb = coinHelper.getWritableDatabase(); //DB열기
 
         //api start
         NetworkThread thread = new NetworkThread();
@@ -116,10 +124,13 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
         TVcoinName.setText(stocklist);
 
 
+
+
         BTNBuyCoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Double Icoincash = 0.0;
+                Double Icoinprice = 0.0;
 
                 if (coincashdouble < finCoinMoney) {
                     Toast.makeText(getApplicationContext(), "자금이 모자랍니다.", Toast.LENGTH_LONG).show();
@@ -137,7 +148,26 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
                     Object[] args = {countCoin.toString(), getid};
                     coindb.execSQL(sql, args);
 
+                    //coinprice
+                    String sqlselectprice = "select coinprice" + stocklist + " from coinprice where coin_price_id=?";
+                    String[] argsselectprice = {getid};
+                    crprice = coinpricedb.rawQuery(sqlselectprice, argsselectprice);
+
+                    while (crprice.moveToNext()) {
+                        Icoinprice = crprice.getDouble(0);
+                    }
+                    if (Icoinprice == 0) {
+                        Icoinprice = Dprice;
+                    } else {
+                        Icoinprice = (Icoinprice + Dprice) / 2;
+                    }
+                    String sqlprice = "update coinprice set coinprice" + stocklist + "=? where coin_price_id=?";
+                    Object[] argsprice = {Icoinprice, getid};
+                    coinpricedb.execSQL(sqlprice, argsprice);
+
                     Toast.makeText(getApplicationContext(), stocklist + "을 " + ETBuyCoin.getText().toString() + "개 구매하셨습니다.", Toast.LENGTH_LONG).show();
+                    //coinprice end
+
 
                     coincashdouble = coincashdouble - finCoinMoney;
                     String sql2 = "update coin set coinCASH=? where coin_id=?";
@@ -148,6 +178,7 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
                     coindb.execSQL(sql2, args2);
                 }
                 ETBuyCoin.setText("0");
+
             }
         });
 
@@ -170,20 +201,37 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
                     coindb.execSQL(sql2, args2);
                 }
                 ETSellCoin.setText("0");
+
             }
         });
 
         BTNBuyResetCoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    isRunning = false;
+                    NetworkThread thread = new NetworkThread();
+                    thread.start();
+                    coindb.close();
+                    coinpricedb.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 finish();
-
-
             }
         });
         BTNSellResetCoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    isRunning = false;
+                    NetworkThread thread = new NetworkThread();
+                    thread.start();
+                    coindb.close();
+                    coinpricedb.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 finish();
             }
         });
@@ -200,7 +248,6 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
             isRunning = false;
             NetworkThread thread = new NetworkThread();
             thread.start();
-            Toast.makeText(getApplicationContext(), "스레드 닫음", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -269,7 +316,7 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
     }
 
     public void showStockList() {
-        try{
+        try {
             if (ETBuyCoin.getText().toString().isEmpty()) {
                 ETBuyCoin.setText("0");
             }
@@ -279,7 +326,7 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
             Double calETBuyCoin = Double.parseDouble(ETBuyCoin.getText().toString());
             finCoinMoney = calTVcoinPrice * calETBuyCoin;
             TVmaybeBuyCoin.setText(df.format(finCoinMoney) + "원");
-        }catch (Exception e){
+        } catch (Exception e) {
             ETBuyCoin.setText("0");
         }
 
@@ -287,8 +334,6 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
     }
 
     public void buychangemoney() {
-        coinHelper = new DBCoinHelper(this, "coin", null, 1);
-        coindb = coinHelper.getWritableDatabase(); //DB열기
 
         Intent out = getIntent();
         final String getid = out.getStringExtra("id");
@@ -310,12 +355,10 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
     }
 
     public void sellchangemoney() {
-        try{
+        try {
             if (ETSellCoin.getText().toString().isEmpty()) {
                 ETSellCoin.setText("0");
             }
-            coinHelper = new DBCoinHelper(this, "coin", null, 1);
-            coindb = coinHelper.getWritableDatabase(); //DB열기
 
             Intent out = getIntent();
             stocklist = out.getStringExtra("coinName");
@@ -327,6 +370,7 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
 
             while (cr.moveToNext()) {
                 Icoincash = cr.getDouble(0);
+                Icoincash = Double.parseDouble(String.format("%.3f", Icoincash));
                 TVMyCoin.setText(Icoincash + "개");
                 TVMyMoneycoin.setText(Icoincash + "개");
                 sellcoincashdouble = Double.parseDouble(ETSellCoin.getText().toString()) * Dprice;
@@ -335,10 +379,9 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
                 TVSellCoin.setText(df.format(sellcoincashdouble) + "원");
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             ETSellCoin.setText("0");
         }
-
     }
 }
 

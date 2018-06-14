@@ -34,9 +34,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10sp"
+                        android:layout_margin="5sp"
                         android:layout_weight="1.5"
-                        android:text="총 보유 자산 "
+                        android:text="보유 KRW "
                         android:textAlignment="center"
                         android:textColor="#ffffff"
                         android:textSize="20sp" />
@@ -45,12 +45,12 @@
                         android:id="@+id/txtMyAllMoney"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10sp"
+                        android:layout_margin="5sp"
                         android:layout_weight="1"
                         android:text="자산 "
                         android:textAlignment="textEnd"
                         android:textColor="#003cff"
-                        android:textSize="25sp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -62,9 +62,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10sp"
+                        android:layout_margin="5sp"
                         android:layout_weight="1.5"
-                        android:text="보유 모의자산 "
+                        android:text="투자 모의자산 "
                         android:textAlignment="center"
                         android:textColor="#ffffff"
                         android:textSize="20sp" />
@@ -73,14 +73,72 @@
                         android:id="@+id/txtMyVirMoney"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10sp"
+                        android:layout_margin="5sp"
                         android:layout_weight="1"
                         android:text="모의 자산 "
                         android:textAlignment="textEnd"
                         android:textColor="#003cff"
-                        android:textSize="25sp" />
+                        android:textSize="20sp" />
+
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_weight="1.5"
+                        android:text="총 보유 자산"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/txtALLmoney"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_weight="1"
+                        android:text="총 자산 "
+                        android:textAlignment="textEnd"
+                        android:textColor="#003cff"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_weight="1.5"
+                        android:text="수익률"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/txtMychange"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_weight="1"
+                        android:text="수익률 "
+                        android:textAlignment="textEnd"
+                        android:textColor="#003cff"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -111,9 +169,27 @@
                         android:id="@+id/BTNsetMYCOIN"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="투자 자본금 설정하기" />
+                        android:layout_margin="10dp"
+                        android:text="투자 자본금 설정하기"
+                        android:textSize="20sp" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:gravity="center"
+                    android:text="보유 코인 수량"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
+                <ListView
+                    android:id="@+id/Listview_mycoin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </ListView>
 
 
             </LinearLayout>

@@ -19,7 +19,9 @@ public class setCashActivity extends AppCompatActivity {
     //DB
     DBCoinHelper coinHelper;
     SQLiteDatabase coindb;
-    Cursor cr;
+
+    DBCoinpriceHelper coinpriceHelper;
+    SQLiteDatabase coinpricedb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class setCashActivity extends AppCompatActivity {
         BTNrecencelCoin = (Button) findViewById(R.id.BTNrecencelCoin);
 
         coinHelper = new DBCoinHelper(this, "coin", null, 1);
+        coinpriceHelper = new DBCoinpriceHelper(this, "coinprice", null, 1);
 
         Intent getintent = getIntent();
         final String getid = getintent.getStringExtra("id");
@@ -44,12 +47,21 @@ public class setCashActivity extends AppCompatActivity {
 
                 if (Integer.parseInt(cash) >= 10000 && Integer.parseInt(cash) <= 50000000) {
                     coindb = coinHelper.getWritableDatabase(); //DB열기
-                    String sql = "update coin set coinCASH=?, coinCOINCASH=0.0,coinBTC=0.0, coinETH=0.0, coinDASH=0.0, coinLTC=0.0, coinETC=0.0, coinXRP=0.0, coinBCH=0.0, coinQTUM=0.0, coinEOS=0.0 where coin_id=?";
-                    Object[] args = {cash, getid};
+                    coinpricedb = coinpriceHelper.getWritableDatabase(); //DB열기
+
+                    String sql = "update coin set coinCASH=?, coinCOINCASH=?,coinBTC=0.0, coinETH=0.0, coinDASH=0.0, coinLTC=0.0, coinETC=0.0, coinXRP=0.0, coinBCH=0.0, coinQTUM=0.0, coinEOS=0.0 where coin_id=?";
+                    Object[] args = {cash, cash, getid};
                     coindb.execSQL(sql, args);
+
+                    String sqlprice = "update coinprice set coinpriceBTC=0.0, coinpriceETH=0.0, coinpriceDASH=0.0, coinpriceLTC=0.0, coinpriceETC=0.0, coinpriceXRP=0.0, coinpriceBCH=0.0, coinpriceQTUM=0.0, coinpriceEOS=0.0 where coin_price_id=?";
+                    Object[] argsprice = {getid};
+                    coinpricedb.execSQL(sqlprice, argsprice);
+
+                    coindb.close();
+                    coinpricedb.close();
                     finish();
-                }else{
-                    Toast.makeText(getApplicationContext(),"설정금액 사이 값을 넣어주세요.",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "설정금액 사이 값을 넣어주세요.", Toast.LENGTH_LONG).show();
                 }
 
 
@@ -59,6 +71,8 @@ public class setCashActivity extends AppCompatActivity {
         BTNrecencelCoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                coindb.close();
+                coinpricedb.close();
                 finish();
             }
         });

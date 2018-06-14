@@ -1,6 +1,7 @@
 package com.example.jinhoh.coinsimulation;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,10 @@ public class member_form_Activity extends AppCompatActivity {
     DBCoinHelper coinHelper;
     SQLiteDatabase mydb, coindb;
 
+    //DB COINPRICE
+    DBCoinpriceHelper coinpriceHelper;
+    SQLiteDatabase coinpricedb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,7 @@ public class member_form_Activity extends AppCompatActivity {
 
         myHelper = new DBHelper(this, "member", null, 1);
         coinHelper = new DBCoinHelper(this, "coin", null, 1);
+        coinpriceHelper = new DBCoinpriceHelper(this, "coinprice", null, 1);
 
         edtMemberID = (EditText) findViewById(R.id.edtMemberID);
         edtMemberPW = (EditText) findViewById(R.id.edtMemberPW);
@@ -45,6 +51,7 @@ public class member_form_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 mydb = myHelper.getWritableDatabase(); //DB열기
                 coindb = coinHelper.getWritableDatabase(); //DB열기
+                coinpricedb = coinpriceHelper.getWritableDatabase(); //DB열기
                 String id = edtMemberID.getText().toString();
                 String password = edtMemberPW.getText().toString();
                 String ckpassword = edtMemberPWCheck.getText().toString();
@@ -60,9 +67,15 @@ public class member_form_Activity extends AppCompatActivity {
                             Object[] argscoin = {id};
                             coindb.execSQL(coinsql, argscoin);
                             coindb.close();
-                        } catch (Exception e) {
 
+                            String coinpricesql = "insert into coinprice(coin_price_id) values(?);";
+                            coinpricedb.execSQL(coinpricesql, argscoin);
+                            coinpricedb.close();
+
+
+                        } catch (Exception e) {
                             coindb.close();
+                            coinpricedb.close();
                             Toast.makeText(getApplicationContext(), "DB생성 실패", Toast.LENGTH_LONG).show();
                         }
                         Toast.makeText(getApplicationContext(), id + "님 회원가입을 축하드립니다", Toast.LENGTH_LONG).show();
