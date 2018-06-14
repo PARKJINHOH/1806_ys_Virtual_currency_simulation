@@ -370,14 +370,13 @@ public class coin_infomationActivity extends TabActivity implements TabHost.OnTa
 
             while (cr.moveToNext()) {
                 Icoincash = cr.getDouble(0);
-                Icoincash = Double.parseDouble(String.format("%.3f", Icoincash));
+                Icoincash = Double.parseDouble(String.format("%.7f", Icoincash));
                 TVMyCoin.setText(Icoincash + "개");
                 TVMyMoneycoin.setText(Icoincash + "개");
                 sellcoincashdouble = Double.parseDouble(ETSellCoin.getText().toString()) * Dprice;
                 String compat = "#,###";
                 DecimalFormat df = new DecimalFormat(compat);
                 TVSellCoin.setText(df.format(sellcoincashdouble) + "원");
-
             }
         } catch (Exception e) {
             ETSellCoin.setText("0");

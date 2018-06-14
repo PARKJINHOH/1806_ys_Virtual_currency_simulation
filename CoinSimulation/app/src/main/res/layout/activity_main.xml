@@ -9,11 +9,21 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
+
+    <TextView
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가상화폐 모의 투자 앱"
+        android:textSize="30sp"
+        android:textColor="#f5c3c3"/>
+
     <ImageView
-        android:layout_width="250sp"
-        android:layout_height="250sp"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
         android:layout_margin="30px"
-        android:src="@drawable/bitcoin" />
+        android:src="@drawable/main" />
 
     <EditText
         android:id="@+id/edtID"

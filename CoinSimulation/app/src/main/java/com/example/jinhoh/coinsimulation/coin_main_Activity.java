@@ -31,7 +31,7 @@ import java.util.HashMap;
 
 @SuppressWarnings("deprecation")
 public class coin_main_Activity extends TabActivity implements TabHost.OnTabChangeListener {
-    TextView txtMyAllMoney, txtMyVirMoney, txtMychange, txtALLmoney;
+    TextView txtMyAllMoney, txtMyVirMoney, txtMychange, txtALLmoney, txtMychangewon;
     TabHost tabHost;
     Button BTNsetMYCOIN;
 
@@ -81,6 +81,7 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
         Listview_mycoin = (ListView) findViewById(R.id.Listview_mycoin);
         txtMychange = (TextView) findViewById(R.id.txtMychange);
         txtALLmoney = (TextView) findViewById(R.id.txtALLmoney);
+        txtMychangewon = (TextView) findViewById(R.id.txtMychangewon);
 
 
         coinpriceHelper = new DBCoinpriceHelper(this, "coinprice", null, 1);
@@ -317,15 +318,22 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
                     mycoincash = mycoincash + (Double.parseDouble(stock_price[i]) * cr.getDouble(i + 3));
                 }
                 Double allmoney = (mycoincash + Icoincash);
+                Double allwonmoney = allmoney - coindefaultcash;
                 Double changecash = ((mycoincash + Icoincash) - coindefaultcash) / coindefaultcash * 100;
                 changecash = Double.parseDouble(String.format("%.3f", changecash));
                 String changecashpercent;
-                if(changecash == 0){
+                if (coindefaultcash == 0) {
                     changecashpercent = "0%";
+                    txtMychange.setTextColor(Color.rgb(218, 226, 208));
+                    txtMychangewon.setTextColor(Color.rgb(218, 226, 208));
                 } else if (changecash > 0) {
                     changecashpercent = "+" + Double.toString(changecash) + "%";
+                    txtMychange.setTextColor(Color.rgb(250, 0, 0));
+                    txtMychangewon.setTextColor(Color.rgb(250, 0, 0));
                 } else {
                     changecashpercent = Double.toString(changecash) + "%";
+                    txtMychange.setTextColor(Color.rgb(0, 0, 250));
+                    txtMychangewon.setTextColor(Color.rgb(0, 0, 250));
                 }
 
                 String compat = "#,###";
@@ -334,6 +342,7 @@ public class coin_main_Activity extends TabActivity implements TabHost.OnTabChan
                 txtMyVirMoney.setText(df.format(mycoincash) + "원");
                 txtALLmoney.setText(df.format(allmoney) + "원");
                 txtMychange.setText(changecashpercent);
+                txtMychangewon.setText(df.format(allwonmoney)+"원");
 
             }
         } catch (Exception e) {
